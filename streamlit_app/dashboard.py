@@ -1,148 +1,144 @@
-import streamlit as st
-import pandas as pd
+import os
 import duckdb
+import pandas as pd
+import streamlit as st
+from fpdf import FPDF
+from io import BytesIO
 from pathlib import Path
 import plotly.express as px
-import base64
-from io import BytesIO
-from fpdf import FPDF
 
-st.set_page_config(page_title="Lakehouse360 Dashboard", layout="wide")
+# ────────────── CONSTANTS ──────────────
+PROJECT_NAME = "Lakehouse360 Dashboard"
+PROJECT_DESCRIPTION = "Explore, filter, and export insights from Lakehouse360 datasets."
+CREATOR_NAME = "Built by Ojas Shukla"
+DATA_PATH = Path("output/cleaned_parquet")
 
-# Paths
-DATA_DIR = Path("output/cleaned_parquet")
-
-# Summary metrics at the top
-st.title("📊 Lakehouse360 Interactive Dashboard")
-st.markdown("""
-Welcome to the interactive analytics dashboard. This tool lets you:
-- Explore insights from the Lakehouse360 platform
-- Filter data across multiple dimensions
-- Visualize trends and metrics dynamically
-- Export results and generate reports
-""")
-
-# Load all data
+# ────────────── LOAD DATA ──────────────
 @st.cache_resource
-
 def load_data():
     con = duckdb.connect()
     tables = {}
-    for file in DATA_DIR.glob("*.parquet"):
+    for file in DATA_PATH.glob("*.parquet"):
         name = file.stem
         df = pd.read_parquet(file)
-        tables[name] = df
         con.register(name, df)
+        tables[name] = df
     return tables, con
 
 tables, con = load_data()
+table_names = list(tables.keys())
 
-# Sidebar Filters
-st.sidebar.header("🔍 Filter Options")
-product_filter = st.sidebar.multiselect("Product Name", tables["products"]["product_name"].unique())
-courier_filter = st.sidebar.multiselect("Courier", tables["deliveries"]["courier"].unique())
+# ────────────── SIDEBAR ──────────────
+st.sidebar.title("🔎 Filters")
+selected_table = st.sidebar.selectbox("Select Table", table_names)
+df = tables[selected_table]
+filter_cols = st.sidebar.multiselect("Columns to Filter", df.columns.tolist())
 
-# Metrics Summary
-st.subheader("📈 Summary Metrics")
+filter_values = {}
+for col in filter_cols:
+    unique_vals = df[col].dropna().unique().tolist()
+    default_vals = unique_vals[:20]  # limit defaults to first 20 for speed
+    filter_values[col] = st.sidebar.multiselect(f"{col}", unique_vals, default=default_vals)
+
+# ────────────── FILTER DATA ──────────────
+df_filtered = df.copy()
+for col, vals in filter_values.items():
+    df_filtered = df_filtered[df_filtered[col].isin(vals)]
+
+# ────────────── PAGE HEADER ──────────────
+st.title(PROJECT_NAME)
+st.caption(PROJECT_DESCRIPTION)
+st.subheader(f"📄 Table: `{selected_table}`")
+st.info("⚠️ Showing only the first 100 rows for performance. Use export to get full data.")
+
+# ────────────── SUMMARY ──────────────
 col1, col2, col3 = st.columns(3)
-col1.metric("Total Customers", f"{len(tables['customers']):,}")
-col2.metric("Total Orders", f"{len(tables['orders']):,}")
-col3.metric("Total Products", f"{len(tables['products']):,}")
+col1.metric("Filtered Rows", len(df_filtered))
+col2.metric("Columns", len(df_filtered.columns))
+col3.metric("Missing Values", df_filtered.isnull().sum().sum())
 
-# Revenue by Product
-st.subheader("💰 Revenue by Product")
-query = """
-    SELECT 
-        p.product_name, 
-        SUM(o.quantity * o.price_per_unit) AS revenue
-    FROM orders o
-    JOIN products p ON o.product_id = p.product_id
-    GROUP BY p.product_name
-    ORDER BY revenue DESC
-    LIMIT 10
-"""
-revenue_df = con.execute(query).df()
-fig1 = px.bar(revenue_df, x="product_name", y="revenue", title="Top Products by Revenue")
-st.plotly_chart(fig1, use_container_width=True)
+st.divider()
+st.dataframe(df_filtered.head(100))
 
-# Download chart
-buf1 = BytesIO()
-fig1.write_image(buf1, format="png")
-st.download_button("⬇️ Download Revenue Chart", buf1.getvalue(), "revenue_chart.png")
+# ────────────── VISUALIZATIONS ──────────────
+st.subheader("📊 Visualizations")
+numeric_cols = df_filtered.select_dtypes("number").columns
+cat_cols = df_filtered.select_dtypes(["object", "category", "bool"]).columns
 
-# Returns by Product
-st.subheader("📦 Returns by Product")
-returns_df = con.execute("""
-    SELECT p.product_name, COUNT(*) AS num_returns
-    FROM returns r
-    JOIN orders o ON r.order_id = o.order_id
-    JOIN products p ON o.product_id = p.product_id
-    GROUP BY p.product_name
-    ORDER BY num_returns DESC
-    LIMIT 10
-""").df()
-fig2 = px.bar(returns_df, x="product_name", y="num_returns", title="Most Returned Products")
-st.plotly_chart(fig2, use_container_width=True)
+if len(numeric_cols) >= 1:
+    st.markdown("#### 📊 Bar Chart (numeric)")
+    y_axis = st.selectbox("Y-axis", numeric_cols, key="bar_y")
+    fig_bar = px.bar(df_filtered.head(100), y=y_axis)
+    st.plotly_chart(fig_bar, use_container_width=True)
 
-buf2 = BytesIO()
-fig2.write_image(buf2, format="png")
-st.download_button("⬇️ Download Returns Chart", buf2.getvalue(), "returns_chart.png")
+if len(cat_cols) >= 1:
+    st.markdown("#### 🥧 Pie Chart (categorical)")
+    cat_axis = st.selectbox("Category", cat_cols, key="pie_cat")
+    pie_df = df_filtered[cat_axis].value_counts().reset_index()
+    pie_df.columns = [cat_axis, "count"]
+    fig_pie = px.pie(pie_df, names=cat_axis, values="count")
+    st.plotly_chart(fig_pie, use_container_width=True)
 
-# Delivery Time
-st.subheader("🚚 Average Delivery Delay by Courier")
-delay_df = con.execute("""
-    SELECT courier, 
-           AVG(CAST(delivered_at AS TIMESTAMP) - CAST(estimated_arrival AS TIMESTAMP)) AS delay
-    FROM deliveries
-    WHERE delivered_at IS NOT NULL
-    GROUP BY courier
-""").df()
-delay_df["delay_hours"] = delay_df["delay"].dt.total_seconds() / 3600
-fig3 = px.bar(delay_df, x="courier", y="delay_hours", title="Avg Delivery Delay (hrs)")
-st.plotly_chart(fig3, use_container_width=True)
+# ────────────── EXPORT SECTION ──────────────
+st.subheader("📤 Export Options")
 
-buf3 = BytesIO()
-fig3.write_image(buf3, format="png")
-st.download_button("⬇️ Download Delivery Delay Chart", buf3.getvalue(), "delivery_delay_chart.png")
+# CSV
+st.download_button(
+    "⬇️ CSV Export",
+    df_filtered.to_csv(index=False),
+    f"{selected_table}_filtered.csv",
+    "text/csv"
+)
 
-# PDF Report Export
-st.subheader("📄 Export Full Report (PDF)")
+# JSON
+st.download_button(
+    "⬇️ JSON Export",
+    df_filtered.to_json(orient="records", indent=2).encode("utf-8"),
+    f"{selected_table}_filtered.json",
+    "application/json"
+)
 
-class PDF(FPDF):
-    def header(self):
-        self.set_font("Arial", "B", 12)
-        self.cell(200, 10, "Lakehouse360 Report", ln=True, align="C")
+# Excel
+excel_buffer = BytesIO()
+with pd.ExcelWriter(excel_buffer, engine='openpyxl') as writer:
+    df_filtered.to_excel(writer, index=False, sheet_name="Filtered Data")
+excel_buffer.seek(0)
+st.download_button(
+    "⬇️ Excel Export",
+    excel_buffer.getvalue(),
+    f"{selected_table}_filtered.xlsx",
+    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+)
 
-    def section_title(self, title):
-        self.set_font("Arial", "B", 11)
-        self.cell(200, 8, title, ln=True, align="L")
-
-    def section_text(self, text):
-        self.set_font("Arial", "", 10)
-        self.multi_cell(0, 6, text)
-
-if st.button("📤 Generate PDF Report"):
-    pdf = PDF()
+# PDF
+def generate_pdf(df, title, table_name, applied_filters):
+    pdf = FPDF()
     pdf.add_page()
-    pdf.section_title("Top Products by Revenue")
-    for _, row in revenue_df.iterrows():
-        pdf.section_text(f"{row['product_name']}: ${row['revenue']:.2f}")
+    pdf.set_font("Arial", "B", 16)
+    pdf.cell(0, 10, title, ln=True, align="C")
 
-    pdf.section_title("Most Returned Products")
-    for _, row in returns_df.iterrows():
-        pdf.section_text(f"{row['product_name']}: {row['num_returns']} returns")
+    pdf.set_font("Arial", "B", 12)
+    pdf.cell(0, 10, f"Table: {table_name}", ln=True)
+    pdf.set_font("Arial", "", 11)
+    pdf.cell(0, 10, f"Rows: {len(df)} | Columns: {len(df.columns)}", ln=True)
 
-    pdf.section_title("Delivery Delay by Courier")
-    for _, row in delay_df.iterrows():
-        pdf.section_text(f"{row['courier']}: {row['delay_hours']:.2f} hrs delay")
+    if applied_filters:
+        pdf.multi_cell(0, 10, f"Filters Applied:\n" + "\n".join([f"{k}: {v}" for k, v in applied_filters.items()]))
 
-    pdf_output = BytesIO()
-    pdf.output(pdf_output)
-    st.download_button("📥 Download PDF Report", data=pdf_output.getvalue(), file_name="lakehouse_report.pdf", mime="application/pdf")
+    pdf.ln(4)
+    pdf.set_font("Arial", "B", 12)
+    pdf.cell(0, 10, "Top 10 Records:", ln=True)
+    pdf.set_font("Arial", "", 9)
+    for idx, row in df.head(10).iterrows():
+        row_str = " | ".join(str(x) for x in row.values[:5])
+        pdf.cell(0, 10, row_str[:100], ln=True)
 
-# Auto-refresh every 5 minutes
-st.markdown("""
-<script>
-    setTimeout(() => window.location.reload(), 300000);
-</script>
-""", unsafe_allow_html=True)
+    pdf.ln(10)
+    pdf.set_font("Arial", "I", 10)
+    pdf.cell(0, 10, CREATOR_NAME, ln=True, align="C")
+
+    return pdf.output(dest="S").encode("latin-1", "ignore")
+
+applied_filters_summary = {k: v for k, v in filter_values.items() if v != df[k].unique().tolist()}
+pdf_bytes = generate_pdf(df_filtered, "Lakehouse360 Report", selected_table, applied_filters_summary)
+st.download_button("⬇️ PDF Export", pdf_bytes, f"{selected_table}_report.pdf", "application/pdf")
