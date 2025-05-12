@@ -1,0 +1,90 @@
+[
+  {
+    "column": "product_id",
+    "dtype": "object",
+    "min": null,
+    "max": null,
+    "null_count": 0,
+    "distinct_count": 10000
+  },
+  {
+    "column": "product_name",
+    "dtype": "object",
+    "min": null,
+    "max": null,
+    "null_count": 0,
+    "distinct_count": 971
+  },
+  {
+    "column": "category",
+    "dtype": "object",
+    "min": null,
+    "max": null,
+    "null_count": 0,
+    "distinct_count": 5
+  },
+  {
+    "column": "brand",
+    "dtype": "object",
+    "min": null,
+    "max": null,
+    "null_count": 0,
+    "distinct_count": 8644
+  },
+  {
+    "column": "weight_grams",
+    "dtype": "float64",
+    "min": "100.4",
+    "max": "4999.93",
+    "null_count": 0,
+    "distinct_count": 9907
+  },
+  {
+    "column": "price",
+    "dtype": "float64",
+    "min": "5.33",
+    "max": "999.97",
+    "null_count": 0,
+    "distinct_count": 9522
+  },
+  {
+    "column": "currency",
+    "dtype": "object",
+    "min": null,
+    "max": null,
+    "null_count": 0,
+    "distinct_count": 1
+  },
+  {
+    "column": "release_date",
+    "dtype": "object",
+    "min": null,
+    "max": null,
+    "null_count": 0,
+    "distinct_count": 1822
+  },
+  {
+    "column": "discontinued",
+    "dtype": "bool",
+    "min": "False",
+    "max": "True",
+    "null_count": 0,
+    "distinct_count": 2
+  },
+  {
+    "column": "rating",
+    "dtype": "float64",
+    "min": "1.0",
+    "max": "5.0",
+    "null_count": 0,
+    "distinct_count": 401
+  },
+  {
+    "column": "num_reviews",
+    "dtype": "int64",
+    "min": "0",
+    "max": "5000",
+    "null_count": 0,
+    "distinct_count": 4354
+  }
+]

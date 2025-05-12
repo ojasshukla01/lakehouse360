@@ -12,3 +12,6 @@ kafka-python
 apache-airflow
 python-dotenv
 pytest
+pandera
+ploty
+fpdf

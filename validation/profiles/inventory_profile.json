@@ -1,0 +1,58 @@
+[
+  {
+    "column": "product_id",
+    "dtype": "object",
+    "min": null,
+    "max": null,
+    "null_count": 0,
+    "distinct_count": 10000
+  },
+  {
+    "column": "product_name",
+    "dtype": "object",
+    "min": null,
+    "max": null,
+    "null_count": 15,
+    "distinct_count": 970
+  },
+  {
+    "column": "stock_level",
+    "dtype": "int64",
+    "min": "0",
+    "max": "500",
+    "null_count": 0,
+    "distinct_count": 501
+  },
+  {
+    "column": "warehouse_id",
+    "dtype": "object",
+    "min": null,
+    "max": null,
+    "null_count": 0,
+    "distinct_count": 1000
+  },
+  {
+    "column": "supplier_id",
+    "dtype": "object",
+    "min": null,
+    "max": null,
+    "null_count": 0,
+    "distinct_count": 10000
+  },
+  {
+    "column": "restock_date",
+    "dtype": "object",
+    "min": null,
+    "max": null,
+    "null_count": 0,
+    "distinct_count": 1
+  },
+  {
+    "column": "expiry_date",
+    "dtype": "object",
+    "min": null,
+    "max": null,
+    "null_count": 0,
+    "distinct_count": 730
+  }
+]

@@ -1,0 +1,58 @@
+[
+  {
+    "column": "delivery_id",
+    "dtype": "object",
+    "min": null,
+    "max": null,
+    "null_count": 0,
+    "distinct_count": 30000
+  },
+  {
+    "column": "order_id",
+    "dtype": "object",
+    "min": null,
+    "max": null,
+    "null_count": 0,
+    "distinct_count": 30000
+  },
+  {
+    "column": "courier",
+    "dtype": "object",
+    "min": null,
+    "max": null,
+    "null_count": 0,
+    "distinct_count": 4
+  },
+  {
+    "column": "delivery_status",
+    "dtype": "object",
+    "min": null,
+    "max": null,
+    "null_count": 0,
+    "distinct_count": 4
+  },
+  {
+    "column": "estimated_arrival",
+    "dtype": "object",
+    "min": null,
+    "max": null,
+    "null_count": 0,
+    "distinct_count": 29664
+  },
+  {
+    "column": "delivered_at",
+    "dtype": "datetime64[ns]",
+    "min": null,
+    "max": null,
+    "null_count": 0,
+    "distinct_count": 28302
+  },
+  {
+    "column": "route",
+    "dtype": "object",
+    "min": null,
+    "max": null,
+    "null_count": 0,
+    "distinct_count": 29998
+  }
+]

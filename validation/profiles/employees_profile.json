@@ -1,0 +1,82 @@
+[
+  {
+    "column": "employee_id",
+    "dtype": "object",
+    "min": null,
+    "max": null,
+    "null_count": 0,
+    "distinct_count": 1000
+  },
+  {
+    "column": "full_name",
+    "dtype": "object",
+    "min": null,
+    "max": null,
+    "null_count": 0,
+    "distinct_count": 989
+  },
+  {
+    "column": "email",
+    "dtype": "object",
+    "min": null,
+    "max": null,
+    "null_count": 0,
+    "distinct_count": 999
+  },
+  {
+    "column": "phone",
+    "dtype": "object",
+    "min": null,
+    "max": null,
+    "null_count": 0,
+    "distinct_count": 1000
+  },
+  {
+    "column": "hire_date",
+    "dtype": "object",
+    "min": null,
+    "max": null,
+    "null_count": 0,
+    "distinct_count": 875
+  },
+  {
+    "column": "role",
+    "dtype": "object",
+    "min": null,
+    "max": null,
+    "null_count": 0,
+    "distinct_count": 5
+  },
+  {
+    "column": "shift",
+    "dtype": "object",
+    "min": null,
+    "max": null,
+    "null_count": 0,
+    "distinct_count": 3
+  },
+  {
+    "column": "salary",
+    "dtype": "float64",
+    "min": "40039.11",
+    "max": "119904.12",
+    "null_count": 0,
+    "distinct_count": 1000
+  },
+  {
+    "column": "is_active",
+    "dtype": "object",
+    "min": null,
+    "max": null,
+    "null_count": 0,
+    "distinct_count": 6
+  },
+  {
+    "column": "supervisor",
+    "dtype": "object",
+    "min": null,
+    "max": null,
+    "null_count": 0,
+    "distinct_count": 995
+  }
+]

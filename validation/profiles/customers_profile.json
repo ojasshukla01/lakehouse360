@@ -1,0 +1,130 @@
+[
+  {
+    "column": "customer_id",
+    "dtype": "object",
+    "min": null,
+    "max": null,
+    "null_count": 0,
+    "distinct_count": 50000
+  },
+  {
+    "column": "first_name",
+    "dtype": "object",
+    "min": null,
+    "max": null,
+    "null_count": 0,
+    "distinct_count": 689
+  },
+  {
+    "column": "last_name",
+    "dtype": "object",
+    "min": null,
+    "max": null,
+    "null_count": 0,
+    "distinct_count": 1000
+  },
+  {
+    "column": "email",
+    "dtype": "object",
+    "min": null,
+    "max": null,
+    "null_count": 0,
+    "distinct_count": 45772
+  },
+  {
+    "column": "phone_number",
+    "dtype": "object",
+    "min": null,
+    "max": null,
+    "null_count": 0,
+    "distinct_count": 50000
+  },
+  {
+    "column": "date_of_birth",
+    "dtype": "object",
+    "min": null,
+    "max": null,
+    "null_count": 0,
+    "distinct_count": 29168
+  },
+  {
+    "column": "gender",
+    "dtype": "object",
+    "min": null,
+    "max": null,
+    "null_count": 0,
+    "distinct_count": 2
+  },
+  {
+    "column": "address",
+    "dtype": "object",
+    "min": null,
+    "max": null,
+    "null_count": 0,
+    "distinct_count": 50000
+  },
+  {
+    "column": "city",
+    "dtype": "object",
+    "min": null,
+    "max": null,
+    "null_count": 0,
+    "distinct_count": 25127
+  },
+  {
+    "column": "state",
+    "dtype": "object",
+    "min": null,
+    "max": null,
+    "null_count": 0,
+    "distinct_count": 50
+  },
+  {
+    "column": "postcode",
+    "dtype": "int64",
+    "min": "502",
+    "max": "99950",
+    "null_count": 0,
+    "distinct_count": 39274
+  },
+  {
+    "column": "country",
+    "dtype": "object",
+    "min": null,
+    "max": null,
+    "null_count": 0,
+    "distinct_count": 243
+  },
+  {
+    "column": "signup_date",
+    "dtype": "object",
+    "min": null,
+    "max": null,
+    "null_count": 0,
+    "distinct_count": 1096
+  },
+  {
+    "column": "loyalty_score",
+    "dtype": "float64",
+    "min": "0.0",
+    "max": "99.99",
+    "null_count": 0,
+    "distinct_count": 9935
+  },
+  {
+    "column": "preferred_store",
+    "dtype": "object",
+    "min": null,
+    "max": null,
+    "null_count": 0,
+    "distinct_count": 3
+  },
+  {
+    "column": "is_active",
+    "dtype": "bool",
+    "min": "False",
+    "max": "True",
+    "null_count": 0,
+    "distinct_count": 2
+  }
+]

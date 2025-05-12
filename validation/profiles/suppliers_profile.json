@@ -1,0 +1,82 @@
+[
+  {
+    "column": "supplier_id",
+    "dtype": "object",
+    "min": null,
+    "max": null,
+    "null_count": 0,
+    "distinct_count": 1000
+  },
+  {
+    "column": "supplier_name",
+    "dtype": "object",
+    "min": null,
+    "max": null,
+    "null_count": 0,
+    "distinct_count": 972
+  },
+  {
+    "column": "contact_name",
+    "dtype": "object",
+    "min": null,
+    "max": null,
+    "null_count": 0,
+    "distinct_count": 994
+  },
+  {
+    "column": "email",
+    "dtype": "object",
+    "min": null,
+    "max": null,
+    "null_count": 0,
+    "distinct_count": 998
+  },
+  {
+    "column": "phone",
+    "dtype": "object",
+    "min": null,
+    "max": null,
+    "null_count": 0,
+    "distinct_count": 1000
+  },
+  {
+    "column": "country",
+    "dtype": "object",
+    "min": null,
+    "max": null,
+    "null_count": 0,
+    "distinct_count": 239
+  },
+  {
+    "column": "rating",
+    "dtype": "object",
+    "min": null,
+    "max": null,
+    "null_count": 0,
+    "distinct_count": 4
+  },
+  {
+    "column": "active",
+    "dtype": "object",
+    "min": null,
+    "max": null,
+    "null_count": 0,
+    "distinct_count": 6
+  },
+  {
+    "column": "established_year",
+    "dtype": "int64",
+    "min": "1990",
+    "max": "2023",
+    "null_count": 0,
+    "distinct_count": 34
+  },
+  {
+    "column": "num_products_supplied",
+    "dtype": "int64",
+    "min": "5",
+    "max": "100",
+    "null_count": 0,
+    "distinct_count": 96
+  }
+]

@@ -1,0 +1,74 @@
+[
+  {
+    "column": "return_id",
+    "dtype": "object",
+    "min": null,
+    "max": null,
+    "null_count": 0,
+    "distinct_count": 5000
+  },
+  {
+    "column": "order_id",
+    "dtype": "object",
+    "min": null,
+    "max": null,
+    "null_count": 0,
+    "distinct_count": 5000
+  },
+  {
+    "column": "reason",
+    "dtype": "object",
+    "min": null,
+    "max": null,
+    "null_count": 0,
+    "distinct_count": 4
+  },
+  {
+    "column": "refund_amount",
+    "dtype": "float64",
+    "min": "10.05",
+    "max": "499.93",
+    "null_count": 0,
+    "distinct_count": 4758
+  },
+  {
+    "column": "currency",
+    "dtype": "object",
+    "min": null,
+    "max": null,
+    "null_count": 0,
+    "distinct_count": 1
+  },
+  {
+    "column": "return_date",
+    "dtype": "object",
+    "min": null,
+    "max": null,
+    "null_count": 0,
+    "distinct_count": 1
+  },
+  {
+    "column": "processed_by",
+    "dtype": "object",
+    "min": null,
+    "max": null,
+    "null_count": 0,
+    "distinct_count": 4838
+  },
+  {
+    "column": "status",
+    "dtype": "object",
+    "min": null,
+    "max": null,
+    "null_count": 0,
+    "distinct_count": 3
+  },
+  {
+    "column": "notes",
+    "dtype": "object",
+    "min": null,
+    "max": null,
+    "null_count": 0,
+    "distinct_count": 3332
+  }
+]

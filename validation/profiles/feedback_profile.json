@@ -1,0 +1,42 @@
+[
+  {
+    "column": "supplier_id",
+    "dtype": "object",
+    "min": null,
+    "max": null,
+    "null_count": 0,
+    "distinct_count": 10000
+  },
+  {
+    "column": "supplier_name",
+    "dtype": "object",
+    "min": null,
+    "max": null,
+    "null_count": 0,
+    "distinct_count": 8678
+  },
+  {
+    "column": "feedback_score",
+    "dtype": "int64",
+    "min": "1",
+    "max": "5",
+    "null_count": 0,
+    "distinct_count": 5
+  },
+  {
+    "column": "feedback_text",
+    "dtype": "object",
+    "min": null,
+    "max": null,
+    "null_count": 0,
+    "distinct_count": 10000
+  },
+  {
+    "column": "submitted_at",
+    "dtype": "datetime64[ns]",
+    "min": null,
+    "max": null,
+    "null_count": 0,
+    "distinct_count": 9999
+  }
+]
