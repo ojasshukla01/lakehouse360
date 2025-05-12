@@ -1,0 +1,24 @@
+# Python virtual environment
+venv/
+__pycache__/
+*.pyc
+
+# Jupyter notebook checkpoints
+.ipynb_checkpoints/
+
+# Airflow configs and logs
+airflow/airflow.db
+airflow/airflow-webserver.pid
+logs/
+
+# Streamlit cache
+.streamlit/
+*.db
+
+# Secrets
+.env
+.env.*
+
+# VSCode/Cursor
+.vscode/
+.cursor-config.json

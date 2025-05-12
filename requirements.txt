@@ -1,0 +1,14 @@
+pandas
+faker
+duckdb
+fastapi
+uvicorn
+streamlit
+sqlalchemy
+dbt-core
+dbt-duckdb
+great_expectations
+kafka-python
+apache-airflow
+python-dotenv
+pytest
